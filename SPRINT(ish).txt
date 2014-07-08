@@ -2,6 +2,7 @@ SPRINT (ish)
 ============
 
 DONE
+- give pool/rank assigment
 
 TO DO
 - make a sound play on the index programatically
@@ -9,6 +10,5 @@ TO DO
 - make the sounds play via request
 - introduce more than one note per sound
 
-- give pool/rank assigment
 - store pool/rank assigment in a cookie
 - sign play requests with pool/rank numbers
