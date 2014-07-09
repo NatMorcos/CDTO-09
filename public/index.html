@@ -33,15 +33,21 @@
 window.onload = function () {
 	MIDI.loadPlugin({
 		soundfontUrl: "./soundfont/",
-		instrument: "acoustic_grand_piano",
+		instruments: [ "acoustic_grand_piano", "synth_drum" ],
 		callback: function() {
-			var delay = 0; // play one note every quarter second
-			var note = 50; // the MIDI note
-			var velocity = 127; // how hard the note hits
-			// play the note
-			MIDI.setVolume(0, 127);
-			MIDI.noteOn(0, note, velocity, delay);
-			//MIDI.noteOff(0, note, 10);
+			for( var i = 0; i < 50; i++){
+				var note = 62 - (i % 8);
+				var delay = i;
+				var velocity = 127; //note hardness
+				MIDI.programChange(0, 0);
+				MIDI.programChange(1, 118);
+								
+				MIDI.setVolume(0, 127);
+
+				MIDI.noteOn(0, note, velocity, delay);
+				MIDI.noteOn(1, note, velocity, delay);
+				MIDI.noteOn(1, note, velocity/2, delay + 0.5);
+			}
 		}
 	});
 };
