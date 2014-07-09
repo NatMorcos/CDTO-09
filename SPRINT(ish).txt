@@ -3,9 +3,9 @@ SPRINT (ish)
 
 DONE
 - give pool/rank assigment
+- make a sound play on the index programatically
 
 TO DO
-- make a sound play on the index programatically
 - make two sounds play on the index programatically
 - make the sounds play via request
 - introduce more than one note per sound
