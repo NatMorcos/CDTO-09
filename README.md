@@ -1,6 +1,6 @@
-% CDTO-09
-% Natalie Morcos
-% 11 jul 2014
+CDTO-09  
+Natalie Morcos  
+11 jul 2014
 
 Requirements
 ============
@@ -11,7 +11,7 @@ Requirements
 Usage
 =====
 
-Install Dependencies (Optional):
+Install Dependencies:
 
     $ npm install
 
@@ -23,11 +23,9 @@ Start Server:
 RESTful API
 ===========
 
-`GET /assigments`
- :    Get a unique pool number/ rank number pairing (:pid, :rid)
-
-`GET /instruments/:pid`
- :    Get an image of the pool's instrument
+`GET /assigments`  
+:  Get a unique pool number/ rank number pairing  
+`{ "pool": ":pid", "rank" : ":rid" }`
 
 
 Project Structure
@@ -39,5 +37,5 @@ Project Structure
 
 `functions.js`
 
- :    The main server logic of the REST API lives here.
+ :    The main server logic for the REST API 
 
