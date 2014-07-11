@@ -35,24 +35,47 @@
 
 	 <script type="text/javascript">
 
-		//NOISEY TINGZ!!! 
-    $(document).ready(function(){
-			
-      var pianoNote = 50 //MIDI.pianoKeyOffset ??
-        , velocity = 128
+    var pianoNote = 50 //MIDI.pianoKeyOffset ??
+    , velocity = 128;
 
+    var operatorFunction = {
+      '+' : function(operand1, operand2){
+        return operand1 + operand2;
+      },
+      '-' : function(operand1, operand2){
+        return operand1 - operand2;
+      }
+    }
+
+   function changeFieldValue(fieldKey, operator, amount){
+      switch(fieldKey){ //extensible
+        case 'pn':
+          pianoNote = operatorFunction[operator](pianoNote, amount);
+          break;
+        case 'v':
+          velocity = operatorFunction[operator](velocity, amount);
+          break;
+      };
+   };
+
+    //NOISEY TINGZ!!! 
+    $(document).ready(function(){
+      
       MIDI.loadPlugin({
         soundfontUrl: "./soundfont/",
-        instruments: [ "acoustic_grand_piano", "synth_drum" ],
+       instruments: [ "acoustic_grand_piano", "synth_drum" ],
         callback: function() {
           for( var i = 0; i < 100; i++){
-						var delay = i;
-
+            
+            //mother f. the loop runs too quickly for our var changes!
+            //uncomment and watch the console.
+            //console.log('iteration %d: note=%d velocity=%d', i, pianoNote, velocity);
+            
+            var delay = i;
 						MIDI.programChange(0, 0);
 						MIDI.programChange(1, 118);
 										
 						MIDI.setVolume(0, 127);
-
 						MIDI.noteOn(0, pianoNote, velocity, delay);
 						MIDI.noteOn(1, 50, 127, delay);
 						MIDI.noteOn(1, 50, 64, delay + 0.5);
@@ -68,23 +91,23 @@
         }); //can have callback
 
         primus.on('hit note harder', function(){
-          velocity += 10;
+          changeFieldValue('v', '+', 10);
           console.log("velocity increased to: " + velocity);
         });
 
         primus.on('hit note softer', function(){
-          velocity -= 10;
+          changeFieldValue('v', '-', 10);
           console.log("velocity decreased to: " + velocity);
         });
 
         primus.on('increase note', function(){
-          pianoNote++;
-          console.log("piano note increased");
+          changeFieldValue('pn', '+', 1);
+          console.log("piano note increased to " + pianoNote);
         });
 
         primus.on('decrease note', function(){
-          pianoNote--;
-          console.log("velocity decreased");
+          changeFieldValue('pn', '-', 1);
+          console.log("piano note decreased to " + pianoNote);
         });
 			});
 		});
