@@ -3,7 +3,6 @@
 	<head>
 	    <meta charset="utf-8">
 	    <title>Sound Board</title>
-	    <!-- <link href="css/styles.css" rel="stylesheet" type="text/css">-->
 	</head>
 	<body>
 
@@ -11,18 +10,51 @@
 	    <div class="header">
 	        <h1>Welcome to the ~soundboard~</h1>
 	    </div>
-	    <div class="main"></div>
+	    <div class="main">
+        <p>This is a piano..... kind of.</p>
+        <br/>
+        <div class="button-container">
+  	    	<button class="incr-vel">Hit Note Harder</button>
+          <button class="decr-vel">Hit Note Softer</button>
+          <button class="incr-note">Increase Note</button>
+          <button class="decr-note">Decrease Note</button>
+        </div>
+	    </div>
 	    <div id="footer"></div>
 	</div>
 
 	<script src="./primus.js" type="text/javascript"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		window.onload = function(){
+		$(document).ready(function(){
+
 			var primus = Primus.connect('http://localhost:8080');
 			primus.on('open', function () {
-			  primus.send('soundboard join' function(){});
+			  primus.send('soundboard join');
+        console.log('successfully joined sound controller room!');
 			});
-		};
+
+			$('.incr-vel').click(function(){
+        primus.send('hit note harder');
+        console.log('hit note harder event fired');
+			});
+
+      $('.decr-vel').click(function(){
+        primus.send('hit note softer');
+        console.log('hit note softer event fired');
+      });
+
+      $('.incr-note').click(function(){
+        primus.send('increase note');
+        console.log('increase note event fired');
+      });
+
+      $('.decr-note').click(function(){
+        primus.send('decrease note');
+        console.log('decrease note event fired');
+      });
+
+		});
 	</script>
 
 	</body>

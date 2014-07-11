@@ -29,29 +29,33 @@
 	 <!-- extras -->
 	 <script src="./inc/Base64.js" type="text/javascript"></script>
 	 <script src="./inc/base64binary.js" type="text/javascript"></script>
+   <!-- jquery -->
+  <script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
+
 
 	 <script type="text/javascript">
 
 		//NOISEY TINGZ!!! 
-		window.onload = function () {
-			MIDI.loadPlugin({
-				soundfontUrl: "./soundfont/",
-				instruments: [ "acoustic_grand_piano", "synth_drum" ],
-				callback: function() {
-					for( var i = 0; i < 50; i++){
-						var note = 62 - (i % 8);
-						var delay = i;
-						var velocity = 127; //note hardness
-						MIDI.programChange(0, 0);
+    $(document).ready(function(){
+			
+      var pianoNote = 50 //MIDI.pianoKeyOffset ??
+        , velocity = 128
 
-						//118 dubs tf mang
+      MIDI.loadPlugin({
+        soundfontUrl: "./soundfont/",
+        instruments: [ "acoustic_grand_piano", "synth_drum" ],
+        callback: function() {
+          for( var i = 0; i < 100; i++){
+						var delay = i;
+
+						MIDI.programChange(0, 0);
 						MIDI.programChange(1, 118);
 										
 						MIDI.setVolume(0, 127);
 
-						MIDI.noteOn(0, note, velocity, delay);
-						MIDI.noteOn(1, note, velocity, delay);
-						MIDI.noteOn(1, note, velocity/2, delay + 0.5);
+						MIDI.noteOn(0, pianoNote, velocity, delay);
+						MIDI.noteOn(1, 50, 127, delay);
+						MIDI.noteOn(1, 50, 64, delay + 0.5);
 					}
 				}
 			});
@@ -59,10 +63,31 @@
 			//Socket stuff
 			var primus = Primus.connect('http://localhost:8080');
 			primus.on('open', function () {
-				console.log('joined');
-			  primus.send('noise maker join', function(){console.log('executed.');});
+			  primus.send('noise maker join', function(){
+          console.log('successfully joined noisemaker room!');
+        }); //can have callback
+
+        primus.on('hit note harder', function(){
+          velocity += 10;
+          console.log("velocity increased to: " + velocity);
+        });
+
+        primus.on('hit note softer', function(){
+          velocity -= 10;
+          console.log("velocity decreased to: " + velocity);
+        });
+
+        primus.on('increase note', function(){
+          pianoNote++;
+          console.log("piano note increased");
+        });
+
+        primus.on('decrease note', function(){
+          pianoNote--;
+          console.log("velocity decreased");
+        });
 			});
-		};
+		});
 
 	</script>
 
