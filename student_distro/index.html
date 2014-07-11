@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+	<head>
+	    <meta charset="utf-8">
+	    <title>Sound Board</title>
+	    <!-- <link href="css/styles.css" rel="stylesheet" type="text/css">-->
+	</head>
+	<body>
+
+	<div class="container">
+	    <div class="header">
+	        <h1>Welcome to the ~soundboard~</h1>
+	    </div>
+	    <div class="main"></div>
+	    <div id="footer"></div>
+	</div>
+
+	<script src="./primus.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			var primus = Primus.connect('http://localhost:8080');
+			primus.on('open', function () {
+			  primus.send('soundboard join' function(){});
+			});
+		};
+	</script>
+
+	</body>
+</html>

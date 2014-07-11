@@ -3,13 +3,8 @@
  */
 var currentPool = 0
     , currentRank = 0
-    , numPools= 4;
+    , numPools= 5;
 
-function validatePoolId(pid) {
-    if ([1,2,3,4].indexOf(Number(pid) == -1)) {
-        throw 'Invalid Pool Number';
-    }
-}
 
 function moveToNextPosition(){
     if(currentPool == numPools - 1){
@@ -27,4 +22,13 @@ exports.assign = function(req, res){
     };
     moveToNextPosition();
     res.json(newPosition);
+}
+
+exports.canPlayNow =  function(rank){
+    var cycleProgress = Date.now() % (5 * 30000)
+        , interval = Math.floor(cycleProgress / 30000);
+
+    //enable for building fun stuff!
+    //return true;
+    return (rank == interval);
 }

@@ -1,6 +1,7 @@
 var express = require('express')
   , http = require('http')
   , path = require('path')
+  , Primus = require('primus.io')
   , functions = require('./functions');
 
 var app = express();
@@ -27,7 +28,13 @@ app.get('/', function(req, res){
 
 app.get('/assigment', functions.assign);
 
+var server = http.createServer(app);
+var primus = new Primus(server, {
+      transformer: 'websockets', 
+      parser: 'JSON' 
+    });
+require('./primus_init')(primus);
 
-http.createServer(app).listen(app.get('port'), function(){
+server.listen(app.get('port'), function(){
   console.log("Hey ho! We're up and running on port " + app.get('port'));
 });
