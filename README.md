@@ -8,7 +8,7 @@ Requirements
   + Node.js
   + Python (for SimpleHttpServer)
   + Express 
-  + Primus
+  + Primus.io
   + Engine.io
 
 Usage
