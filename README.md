@@ -6,7 +6,10 @@ Requirements
 ============
 
   + Node.js
+  + Python (for SimpleHttpServer)
   + Express 
+  + Primus
+  + Engine.io
 
 Usage
 =====
@@ -15,9 +18,13 @@ Install Dependencies:
 
     $ npm install
 
-Start Server:
+Start Server and "Noise Maker" Client from root:
 
     $ npm start
+
+Start "Soundboard" client:
+
+    $ cd student_distro && python -m SimpleHTTPServer
 
 
 RESTful API
@@ -37,5 +44,9 @@ Project Structure
 
 `functions.js`
 
- :    The main server logic for the REST API 
+ :    The main server logic
+
+`primus_init.js`
+
+ :     Dealing with socket communications
 
