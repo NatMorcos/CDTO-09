@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
-	<head>
-	    <meta charset="utf-8">
-	    <title>CDTO-09</title>
+  <head>
+      <meta charset="utf-8">
+      <title>CDTO-09</title>
 
-	    <!-- CSS -->
-	    <link href="css/styles.css" rel="stylesheet" type="text/css">
+      <!-- CSS -->
+      <link href="css/styles.css" rel="stylesheet" type="text/css">
 
-	</head>
-	<body>
+  </head>
+  <body>
 
-	<div class="container">
-	    <div class="header">
-	        <h1>Oh Hey we got some stuff there!!</h1>
-	    </div>
-	    <div class="main"></div>
-	    <div id="footer"></div>
-	</div>
+  <div class="container">
+      <div class="header">
+          <h1>Oh Hey we got some stuff there!!</h1>
+      </div>
+      <div class="main"></div>
+      <div id="footer"></div>
+  </div>
 
-	<!-- sockets -->
-	<script src="./js/primus.js" type="text/javascript"></script>
-	<!-- midi.js package -->
-	 <script src="./js/MIDI/AudioDetect.js" type="text/javascript"></script>
-	 <script src="./js/MIDI/LoadPlugin.js" type="text/javascript"></script>
-	 <script src="./js/MIDI/Plugin.js" type="text/javascript"></script>
-	 <script src="./js/MIDI/Player.js" type="text/javascript"></script>
-	 <script src="./js/Window/DOMLoader.XMLHttp.js" type="text/javascript"></script>
-	 <!-- extras -->
-	 <script src="./inc/Base64.js" type="text/javascript"></script>
-	 <script src="./inc/base64binary.js" type="text/javascript"></script>
+  <!-- sockets -->
+  <script src="./js/primus.js" type="text/javascript"></script>
+  <!-- midi.js package -->
+   <script src="./js/MIDI/AudioDetect.js" type="text/javascript"></script>
+   <script src="./js/MIDI/LoadPlugin.js" type="text/javascript"></script>
+   <script src="./js/MIDI/Plugin.js" type="text/javascript"></script>
+   <script src="./js/MIDI/Player.js" type="text/javascript"></script>
+   <script src="./js/Window/DOMLoader.XMLHttp.js" type="text/javascript"></script>
+   <!-- extras -->
+   <script src="./inc/Base64.js" type="text/javascript"></script>
+   <script src="./inc/base64binary.js" type="text/javascript"></script>
    <!-- jquery -->
   <script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
 
 
-	 <script type="text/javascript">
+   <script type="text/javascript">
 
     var pianoNote = 50 //MIDI.pianoKeyOffset ??
     , velocity = 128;
@@ -63,7 +63,7 @@
       
       MIDI.loadPlugin({
         soundfontUrl: "./soundfont/",
-       instruments: [ "acoustic_grand_piano", "synth_drum" ],
+        instruments: [ "acoustic_grand_piano", "synth_drum" ],
         callback: function() {
           for( var i = 0; i < 100; i++){
             
@@ -72,21 +72,21 @@
             //console.log('iteration %d: note=%d velocity=%d', i, pianoNote, velocity);
             
             var delay = i;
-						MIDI.programChange(0, 0);
-						MIDI.programChange(1, 118);
-										
-						MIDI.setVolume(0, 127);
-						MIDI.noteOn(0, pianoNote, velocity, delay);
-						MIDI.noteOn(1, 50, 127, delay);
-						MIDI.noteOn(1, 50, 64, delay + 0.5);
-					}
-				}
-			});
+            MIDI.programChange(0, 0);
+            MIDI.programChange(1, 118);
+                    
+            MIDI.setVolume(0, 127);
+            MIDI.noteOn(0, pianoNote, velocity, delay);
+            MIDI.noteOn(1, 50, 127, delay);
+            MIDI.noteOn(1, 50, 64, delay + 0.5);
+          }
+        }
+      });
 
-			//Socket stuff
-			var primus = Primus.connect('http://localhost:8080');
-			primus.on('open', function () {
-			  primus.send('noise maker join', function(){
+      //Socket stuff
+      var primus = Primus.connect('http://localhost:8080');
+      primus.on('open', function () {
+        primus.send('noise maker join', function(){
           console.log('successfully joined noisemaker room!');
         }); //can have callback
 
@@ -109,10 +109,10 @@
           changeFieldValue('pn', '-', 1);
           console.log("piano note decreased to " + pianoNote);
         });
-			});
-		});
+      });
+    });
 
-	</script>
+  </script>
 
-	</body>
+  </body>
 </html>
