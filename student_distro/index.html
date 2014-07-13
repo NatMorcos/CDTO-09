@@ -26,7 +26,18 @@
 	<script src="./primus.js" type="text/javascript"></script>
   <script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		$(document).ready(function(){
+		
+    var noisemakerServerAddr = 'http://localhost:8080';
+    //eik globals! kill these.
+    var pool, rank;
+
+    $(document).ready(function(){
+      
+      /*Getting Pool and Rank assignments*/
+      $.get(noisemakerServerAddr + '/assignment', function(data){
+        pool = data.pool;
+        rank = data.rank;
+      });
 
 			var primus = Primus.connect('http://localhost:8080');
 			primus.on('open', function () {

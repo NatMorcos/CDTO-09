@@ -2,6 +2,7 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , Primus = require('primus.io')
+  , cors = require('cors')
   , functions = require('./functions');
 
 var app = express();
@@ -26,7 +27,7 @@ app.get('/', function(req, res){
 });
 
 
-app.get('/assigment', functions.assign);
+app.get('/assignment', cors(), functions.assign);
 
 var server = http.createServer(app);
 var primus = new Primus(server, {

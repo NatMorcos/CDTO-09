@@ -9,7 +9,8 @@ Requirements
   + Python (for SimpleHttpServer)
   + Express 
   + Primus.io
-  + Engine.io
+  + ws
+  + cors
 
 Usage
 =====
