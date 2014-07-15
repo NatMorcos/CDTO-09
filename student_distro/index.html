@@ -14,7 +14,7 @@
         <p>This is a piano..... kind of.</p>
         <br/>
         <div class="button-container">
-  	    	<button class="incr-vel">Hit Note Harder</button>
+  	    	<button class="note-1">Note 1</button>
           <button class="decr-vel">Hit Note Softer</button>
           <button class="incr-note">Increase Note</button>
           <button class="decr-note">Decrease Note</button>
@@ -45,25 +45,10 @@
         console.log('successfully joined sound controller room!');
 			});
 
-			$('.incr-vel').click(function(){
-        primus.send('hit note harder');
-        console.log('hit note harder event fired');
+			$('.note-1').click(function(){
+        primus.send('play note 1');
+        console.log('play note 1 event fired');
 			});
-
-      $('.decr-vel').click(function(){
-        primus.send('hit note softer');
-        console.log('hit note softer event fired');
-      });
-
-      $('.incr-note').click(function(){
-        primus.send('increase note');
-        console.log('increase note event fired');
-      });
-
-      $('.decr-note').click(function(){
-        primus.send('decrease note');
-        console.log('decrease note event fired');
-      });
 
 		});
 	</script>

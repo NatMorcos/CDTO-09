@@ -20,24 +20,9 @@ module.exports = function(primus){
 		});
 
     //in these, eventually data will contain the pool & rank
-    spark.on('hit note harder', function(data){
-      spark.room('noiseyRoom').send('hit note harder', data);
-      console.log('hit note harder event received');
-    });
-
-    spark.on('hit note softer', function(data){
-      spark.room('noiseyRoom').send('hit note softer', data);
-      console.log('hit note softer event received');
-    });
-
-    spark.on('increase note', function(data){
-      spark.room('noiseyRoom').send('increase note', data);
-      console.log('increase note event received');
-    });
-
-    spark.on('decrease note', function(data){
-      spark.room('noiseyRoom').send('decrease note', data);
-      console.log('increase note event received');
+    spark.on('play note 1', function(data){
+      spark.room('noiseyRoom').send('play note 1', data);
+      console.log('play note 1 event received');
     });
 
 	});
