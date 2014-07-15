@@ -8,9 +8,10 @@ DONE
 - make the sounds play via request
 
 TO DO
-- introduce more than one note per sound
-
-- store pool/rank assigment in a cookie
+- play different instruments from different clients
 - sign play requests with pool/rank numbers
-
 - let only certain ranks play in certain intervals
+- link button presses to keyboard events
+- play chords when more than one key is pressed together
+- make clients pretty
+- make noisemaker pretty
