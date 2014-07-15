@@ -1,10 +1,6 @@
-/**
- * REST API for CDTO-09
- */
 var currentPool = 0
     , currentRank = 0
-    , numPools= 5;
-
+    , numPools= 4;
 
 function moveToNextPosition(){
     if(currentPool == numPools - 1){
@@ -16,6 +12,7 @@ function moveToNextPosition(){
 }
 
 exports.assign = function(req, res){
+    console.log(req.params);
     var newPosition = {
         "pool": currentPool,
         "rank": currentRank

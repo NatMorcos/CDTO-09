@@ -41,15 +41,25 @@
 
     //NOISEY TINGZ!!! 
     $(document).ready(function(){
+
+      var instruments = [ "agogo", "celesta", "glockenspiel", "electric_bass_pick" ];
+      var programNumMappings = {
+        agogo: 133,
+        celesta: 8,
+        glockenspiel: 9,
+        electric_bass_pick: 34
+      }
       
       MIDI.loadPlugin({
         soundfontUrl: "./soundfont/",
-        instruments: "acoustic_grand_piano",
+        instruments: instruments,
         callback: function() {
-            //set the volume for the different channels
-            MIDI.setVolume(0, 127); //acoustic_grand_piano
-            console.log('MIDI player loaded!');
+          //map the instruments to seperate channels
+          for (var i = 0; i < instruments.length; i++){
+            MIDI.programChange(i, programNumMappings[instruments[i]]);
           }
+          console.log("We're all set up on %d channels!", instruments.length);  
+        }
       });
 
       //Socket stuff
@@ -59,7 +69,8 @@
           console.log('successfully joined noisemaker room!');
         }); //can have callback
 
-        primus.on('play note 1', function(){
+        primus.on('play note 1', function(data){
+          console.log(data);
           playSingle(0, 50, 127, 0);
           console.log("played note 1!");
         });

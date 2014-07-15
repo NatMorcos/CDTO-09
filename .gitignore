@@ -4,3 +4,14 @@ logs
 
 # Dependency directory
 node_modules
+
+#temporary
+MIDI.js/
+public/inc/SoundManager2/
+public/inc/WebMIDIAPI.js
+public/inc/jasmid/
+public/js/Color/
+public/js/MusicTheory/
+public/js/Widgets/
+public/js/Window/Event.js
+public/js/Window/Queue.js

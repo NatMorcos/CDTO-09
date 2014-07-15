@@ -28,15 +28,16 @@
 	<script type="text/javascript">
 		
     var noisemakerServerAddr = 'http://localhost:8080';
-    //eik globals! kill these.
-    var pool, rank;
+    var myInfo = {};
 
     $(document).ready(function(){
       
-      /*Getting Pool and Rank assignments*/
-      $.get(noisemakerServerAddr + '/assignment', function(data){
-        pool = data.pool;
-        rank = data.rank;
+      /** 
+       Getting Pool and Rank assignments
+       send empty object along to prevent double assigns */
+      $.get(noisemakerServerAddr + '/assignment', myInfo, function(data){
+        myInfo.pool = data.pool;
+        myInfo.rank = data.rank;
       });
 
 			var primus = Primus.connect('http://localhost:8080');
@@ -46,7 +47,8 @@
 			});
 
 			$('.note-1').click(function(){
-        primus.send('play note 1');
+        console.log(myInfo);
+        primus.send('play note 1', myInfo);
         console.log('play note 1 event fired');
 			});
 
