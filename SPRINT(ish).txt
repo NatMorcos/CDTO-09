@@ -9,9 +9,9 @@ DONE
 - sign play requests with pool/rank numbers
 - make clients pretty
 - let only certain ranks play in certain intervals
+- link button presses to keyboard events
 
 TO DO
 - play different instruments from different clients simultaneously
-- link button presses to keyboard events
 - play chords when more than one key is pressed together
 - make noisemaker pretty
