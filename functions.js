@@ -26,6 +26,6 @@ exports.canPlayNow =  function(rank){
         , interval = Math.floor(cycleProgress / 30000);
 
     //enable for building fun stuff!
-    //return true;
-    return (rank == interval);
+    return true;
+    // return (rank == interval);
 }

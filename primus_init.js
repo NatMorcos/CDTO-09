@@ -19,10 +19,11 @@ module.exports = function(primus){
 			});
 		});
 
-    //in these, eventually data will contain the pool & rank
-    spark.on('play note 1', function(data){
-      spark.room('noiseyRoom').send('play note 1', data);
-      console.log('play note 1 event received');
+    spark.on('play note', function(data){
+      if (functions.canPlayNow(data.rank)){
+        spark.room('noiseyRoom').send('play note', data);
+        console.log('play note %d event transmitted from p%d:r%d', data.note, data.pool, data.rank);
+      }
     });
 
 	});

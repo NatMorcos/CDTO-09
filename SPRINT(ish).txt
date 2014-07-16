@@ -7,12 +7,11 @@ DONE
 - make two sounds play on the index programatically
 - make the sounds play via request
 - sign play requests with pool/rank numbers
+- make clients pretty
+- let only certain ranks play in certain intervals
 
 TO DO
-- play different instruments from different clients
-- let only certain ranks play in certain intervals
+- play different instruments from different clients simultaneously
 - link button presses to keyboard events
 - play chords when more than one key is pressed together
-- make clients pretty
 - make noisemaker pretty
-

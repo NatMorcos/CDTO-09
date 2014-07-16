@@ -1,59 +1,81 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
-	<head>
-	    <meta charset="utf-8">
-	    <title>Sound Board</title>
-	</head>
-	<body>
+  <head>
+      <meta charset="utf-8">
+      <title>Sound Board</title>
 
-	<div class="container">
-	    <div class="header">
-	        <h1>Welcome to the ~soundboard~</h1>
-	    </div>
-	    <div class="main">
-        <p>This is a piano..... kind of.</p>
-        <br/>
-        <div class="button-container">
-  	    	<button class="note-1">Note 1</button>
-          <button class="decr-vel">Hit Note Softer</button>
-          <button class="incr-note">Increase Note</button>
-          <button class="decr-note">Decrease Note</button>
-        </div>
-	    </div>
-	    <div id="footer"></div>
-	</div>
+      <!-- CSS -->
+      <link href="./styles.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
 
-	<script src="./primus.js" type="text/javascript"></script>
+    <header>
+        <h1>SOUNDBOARD</h1>
+    </header>
+    <main>
+        <div class="sound-button" data-note-number="1">
+          Note 1
+          <br/><br/>
+          (press A)</div>
+        <div class="sound-button" data-note-number="2">
+          Note 2
+          <br/><br/>
+          (press D)</div>
+        <div class="sound-button" data-note-number="3">
+          Note 3
+          <br/><br/>
+          (press J)</div>
+        <div class="sound-button" data-note-number="4">
+          Note 4
+          <br/><br/>
+          (press K)</div>
+        <div class="sound-button" data-note-number="5">
+          Note 5
+          <br/><br/>
+          (press L)</div>
+    </main>
+    <footer>Let's make some noise!</footer>
+  </body>
+
+  <script src="./primus.js" type="text/javascript"></script>
   <script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
-	<script type="text/javascript">
-		
+  <script type="text/javascript">
+    
     var noisemakerServerAddr = 'http://localhost:8080';
-    var myInfo = {};
+    var myPool, myRank;
 
     $(document).ready(function(){
       
-      /** 
-       Getting Pool and Rank assignments
-       send empty object along to prevent double assigns */
-      $.get(noisemakerServerAddr + '/assignment', myInfo, function(data){
-        myInfo.pool = data.pool;
-        myInfo.rank = data.rank;
+      /* Getting Pool and Rank assignments */
+      $.get(noisemakerServerAddr + '/assignment', function(data){
+        myPool = data.pool;
+        myRank = data.rank;
       });
 
-			var primus = Primus.connect('http://localhost:8080');
-			primus.on('open', function () {
-			  primus.send('soundboard join');
+      var primus = Primus.connect('http://localhost:8080');
+      primus.on('open', function () {
+        primus.send('soundboard join');
         console.log('successfully joined sound controller room!');
-			});
+      });
 
-			$('.note-1').click(function(){
-        console.log(myInfo);
-        primus.send('play note 1', myInfo);
-        console.log('play note 1 event fired');
-			});
+      //start playing the note
+      $('.sound-button').mousedown(function(){
+        var myInfo = {
+          note: $(this).data('note-number'),
+          pool: myPool,
+          rank: myRank
+        }
+        primus.send('play note', myInfo);
+        $(this).addClass('active');
+        console.log('play note event fired!');
+      });
 
-		});
-	</script>
+      //stop playing the note
+      $('.sound-button').mouseup(function(){
+        $(this).removeClass('active');
+      });
+    });
+  </script>
 
-	</body>
+  </body>
 </html>

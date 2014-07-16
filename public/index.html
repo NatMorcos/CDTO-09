@@ -34,22 +34,32 @@
 
 
    <script type="text/javascript">
+    
+    var instruments = [ "agogo", "celesta", "glockenspiel", "electric_bass_pick" ];
+    var programNumMappings = {
+      agogo: 113,
+      celesta: 8,
+      glockenspiel: 9,
+      electric_bass_pick: 34
+    };
+    var noteMappings = {
+      agogo: [57, 48, 50, 49, 55],
+      celesta: [33, 24, 26, 25, 31],
+      glockenspiel: [72, 25, 37, 54, 103],
+      electric_bass_pick: [33, 24, 26, 25, 31]
+    }
 
     function playSingle(channel, note, velocity, delay){
       MIDI.noteOn(channel, note, velocity, delay);
     }
 
+    function mapNote(instrumentNumber, noteNumber){
+      return noteMappings[instruments[instrumentNumber]][noteNumber - 1];
+    }
+
     //NOISEY TINGZ!!! 
     $(document).ready(function(){
 
-      var instruments = [ "agogo", "celesta", "glockenspiel", "electric_bass_pick" ];
-      var programNumMappings = {
-        agogo: 133,
-        celesta: 8,
-        glockenspiel: 9,
-        electric_bass_pick: 34
-      }
-      
       MIDI.loadPlugin({
         soundfontUrl: "./soundfont/",
         instruments: instruments,
@@ -67,12 +77,12 @@
       primus.on('open', function () {
         primus.send('noise maker join', function(){
           console.log('successfully joined noisemaker room!');
-        }); //can have callback
+        });
 
-        primus.on('play note 1', function(data){
-          console.log(data);
-          playSingle(0, 50, 127, 0);
-          console.log("played note 1!");
+        primus.on('play note', function(data){
+          // use transmitted note
+          playSingle(data.pool, mapNote(data.pool, data.note), 127, 0);
+          console.log("played note %d on %s!", data.note, instruments[data.pool]);
         });
       });
     });
