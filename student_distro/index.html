@@ -78,14 +78,11 @@
       // We ask the noisemaker to give us some data. Then we write it down.
       $.get(noisemakerAddress+ '/assignment', function(data){
         // fill in the information we were missing before.
-        console.log(data);
         myInstrumentNumber = data.instrumentNumber;
         myRank = data.rank;
-        console.log(myInstrumentNumber);
-        console.log(data.rank);
       });
 
-      // A function is instructions for doing a task or a chore.
+      // A function is instructions for doing a task.
       // We need instructions for telling the noisemaker to play a sound!
       function playSound(noteNumber){
         // collect some information to send to the noisemaker so it
@@ -95,7 +92,6 @@
             instrumentNumber: myInstrumentNumber,
             rank: myRank
           }
-          console.log(myInfo)
           // now send the message! primus is the messenger.
           // we tell primus the task, then the information he needs to do it.
           primus.send('play note', myInfo);
