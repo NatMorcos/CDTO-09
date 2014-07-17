@@ -1,20 +1,19 @@
-var currentPool = 0
+var currentInstrument = 0
     , currentRank = 0
-    , numPools= 4;
+    , numInstruments= 4;
 
 function moveToNextPosition(){
-    if(currentPool == numPools - 1){
-        currentPool = 0;
+    if(currentInstrument == numInstruments - 1){
+        currentInstrument = 0;
         currentRank++;
     } else {
-        currentPool++;
+        currentInstrument++;
     }
 }
 
 exports.assign = function(req, res){
-    console.log(req.params);
     var newPosition = {
-        "pool": currentPool,
+        "instrumentNumber": currentInstrument,
         "rank": currentRank
     };
     moveToNextPosition();

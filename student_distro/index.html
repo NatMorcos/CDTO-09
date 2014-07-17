@@ -1,98 +1,146 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
+ 
   <head>
       <meta charset="utf-8">
-      <title>Sound Board</title>
-
-      <!-- CSS -->
+      <title>SoundBoard</title>
       <link href="./styles.css" rel="stylesheet" type="text/css">
   </head>
+ 
   <body>
-
+ 
     <header>
         <h1>SOUNDBOARD</h1>
     </header>
+ 
     <main>
         <div class="sound-button" data-note-number="1">
           Note 1
           <br/><br/>
-          (press A)</div>
+          (press A)
+        </div>
         <div class="sound-button" data-note-number="2">
           Note 2
           <br/><br/>
-          (press D)</div>
+          (press D)
+        </div>
         <div class="sound-button" data-note-number="3">
           Note 3
           <br/><br/>
-          (press J)</div>
+          (press J)
+        </div>
         <div class="sound-button" data-note-number="4">
           Note 4
           <br/><br/>
-          (press K)</div>
+          (press K)
+        </div>
         <div class="sound-button" data-note-number="5">
           Note 5
           <br/><br/>
-          (press L)</div>
+          (press L)
+        </div>
     </main>
+  
     <footer>Let's make some noise!</footer>
+  
   </body>
 
   <script src="./primus.js" type="text/javascript"></script>
   <script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
   <script type="text/javascript">
     
+    // This makes sure we're ready before we start!
+    // Are you ready? I'm ready!
     $(document).ready(function(){
 
-      var noisemakerServerAddr = 'http://localhost:8080';
-      var keypressToNoteNumber = {
-        65: 1,
-        68: 2,
-        74: 3,
-        75: 4,
-        76: 5
+      // First we set some stuff up so we can come back and get it later.
+      // Think about it like taking out the supplies you need for a project
+      // before you get started.
+      
+      // This is the address of the server that makes noise.
+      // We need its address because we want to send it things.
+      var noisemakerAddress = 'http://localhost:8080'; //TODO: Change for IP @ BitMaker
+      
+      // This is a map. It tells us how to get from one place to another.
+      var keypressToNoteNumberMap = {
+        65: 1, // key A is note 1
+        68: 2, // key D is note 2
+        74: 3, // key J is note 3
+        75: 4, // key K is note 4
+        76: 5  // key L is note 5
       }
-      var myPool, myRank;
 
+      // These are things we'll need, but we don't know what they are yet.
+      // We're taking them out now so we can come back and fill them in when we know more.
+      var myInstrumentNumber, myRank;
+
+      // Let's find out what they should be. 
+      // We ask the noisemaker to give us some data. Then we write it down.
+      $.get(noisemakerAddress+ '/assignment', function(data){
+        // fill in the information we were missing before.
+        console.log(data);
+        myInstrumentNumber = data.instrumentNumber;
+        myRank = data.rank;
+        console.log(myInstrumentNumber);
+        console.log(data.rank);
+      });
+
+      // A function is instructions for doing a task or a chore.
+      // We need instructions for telling the noisemaker to play a sound!
       function playSound(noteNumber){
+        // collect some information to send to the noisemaker so it
+        // knows what note we want to it play. 
         var myInfo = {
             note: noteNumber,
-            pool: myPool,
+            instrumentNumber: myInstrumentNumber,
             rank: myRank
           }
+          console.log(myInfo)
+          // now send the message! primus is the messenger.
+          // we tell primus the task, then the information he needs to do it.
           primus.send('play note', myInfo);
-          $(this).addClass('active');
-          console.log('play note event fired!');
       }
       
-      /* Getting Pool and Rank assignments */
-      $.get(noisemakerServerAddr + '/assignment', function(data){
-        myPool = data.pool;
-        myRank = data.rank;
-      });
+      // Primus is our messenger. We need to tell him where he should
+      // send the messages, so we give him an address.
+      var primus = Primus.connect(noisemakerAddress); 
 
-      var primus = Primus.connect('http://localhost:8080');
+      // when the connection opens
       primus.on('open', function () {
+        // tell the noisemaker that a soundbard is here.
         primus.send('soundboard join');
-        console.log('successfully joined sound controller room!');
       });
 
-      //start playing the note
+      // when we press down a sound button, play a note!
       $('.sound-button').mousedown(function(){
+        // figure out which note the button makes 
         var noteNumber = $(this).data('note-number');
+        // remember our function? 
+        // Use the instructions for how to play the sound.
         playSound(noteNumber);
+        // since this button is in the middle of doing something,
+        // let's make it light up.
+        $(this).addClass('active');
       });
 
-      //stop playing the note
+      // when we stop pressing the button
       $('.sound-button').mouseup(function(){
+        // it shouldn't light up anymore.
         $(this).removeClass('active');
       });
 
-      $('html').keydown(function(e){
-        var noteNumber = keypressToNoteNumber[e.which];
+      // we want to be able to play from the keyboard too!
+      $('html').keydown(function(e){ // when a key is pressed
+        // figure out which key it was
+        var keyCode = e.which;
+        // using our map, figure out how to get from that key to a note
+        var noteNumber = keypressToNoteNumberMap[e.which];
+        // Use the instructions for how to play the sound.
         playSound(noteNumber);
       });
 
     });
+
   </script>
 
   </body>

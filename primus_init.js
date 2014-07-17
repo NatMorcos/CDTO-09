@@ -20,9 +20,10 @@ module.exports = function(primus){
 		});
 
     spark.on('play note', function(data){
+      console.log(data);
       if (functions.canPlayNow(data.rank)){
         spark.room('noiseyRoom').send('play note', data);
-        console.log('play note %d event transmitted from p%d:r%d', data.note, data.pool, data.rank);
+        console.log('play note %d event transmitted from p%d:r%d', data.note, data.instrument, data.rank);
       }
     });
 

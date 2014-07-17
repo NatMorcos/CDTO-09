@@ -10,8 +10,25 @@ DONE
 - make clients pretty
 - let only certain ranks play in certain intervals
 - link button presses to keyboard events
+- play chords when more than one key is pressed together
 
 TO DO
 - play different instruments from different clients simultaneously
-- play chords when more than one key is pressed together
 - make noisemaker pretty
+- make key press trigger active class
+- show countdown to their turn in the bottom
+- Make Applause button on my client
+
+
+LESSON STUFF
+============
+
+DONE
+- comment student distro in gr8 lvl english
+
+TO DO
+- figure out what concepts need to be explained as prior knowledge
+- make slide deck for ^^
+- include sponsors logos on slide deck
+- remove bits of code and leave instructions
+- make handout with steps to complete and instructions

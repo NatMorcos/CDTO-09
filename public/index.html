@@ -81,8 +81,9 @@
 
         primus.on('play note', function(data){
           // use transmitted note
-          playSingle(data.pool, mapNote(data.pool, data.note), 127, 0);
-          console.log("played note %d on %s!", data.note, instruments[data.pool]);
+          console.log(data);
+          playSingle(data.instrumentNumber, mapNote(data.instrumentNumber, data.note), 175, 0);
+          console.log("played note %d on %s!", data.note, instruments[data.instrumentNumber]);
         });
       });
     });
