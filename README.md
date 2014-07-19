@@ -6,7 +6,6 @@ Requirements
 ============
 
   + Node.js
-  + Python (for SimpleHttpServer)
   + Express 
   + Primus.io
   + ws
@@ -19,13 +18,14 @@ Install Dependencies:
 
     $ npm install
 
-Start Server and "Noise Maker" Client from root:
+Start "noiseMaker" Server:
 
-    $ npm start
+    $ npm start  
 
-Start "Soundboard" client:
+"Soundboard" client:
 
-    $ cd student_distro && python -m SimpleHTTPServer
+    student_distro/index.html  
+    line 50: needs the address of the "noiseMaker" server
 
 
 RESTful API
