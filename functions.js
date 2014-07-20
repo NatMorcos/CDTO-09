@@ -1,6 +1,6 @@
 var currentInstrument = 0
     , currentRank = 0
-    , numInstruments= 4;
+    , numInstruments= 5;
 
 function moveToNextPosition(){
     if(currentInstrument == numInstruments - 1){
@@ -13,8 +13,8 @@ function moveToNextPosition(){
 
 exports.assign = function(req, res){
     var newPosition = {
-        "instrumentNumber": currentInstrument,
-        "rank": currentRank
+        "instrument": currentInstrument,
+        "number": currentRank
     };
     moveToNextPosition();
     res.json(newPosition);

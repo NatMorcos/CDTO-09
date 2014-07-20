@@ -14,27 +14,27 @@
     </header>
  
     <main>
-        <div class="sound-button" data-note-number="1">
+        <div class="sound-button" id="1">
           Note 1
           <br/><br/>
           (press A)
         </div>
-        <div class="sound-button" data-note-number="2">
+        <div class="sound-button" id="2">
           Note 2
           <br/><br/>
           (press D)
         </div>
-        <div class="sound-button" data-note-number="3">
+        <div class="sound-button" id="3">
           Note 3
           <br/><br/>
           (press J)
         </div>
-        <div class="sound-button" data-note-number="4">
+        <div class="sound-button" id="4">
           Note 4
           <br/><br/>
           (press K)
         </div>
-        <div class="sound-button" data-note-number="5">
+        <div class="sound-button" id="5">
           Note 5
           <br/><br/>
           (press L)
@@ -49,20 +49,11 @@
   <script src="http://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
   <script type="text/javascript">
     
-    // This makes sure we're ready before we start!
-    // Are you ready? I'm ready!
     $(document).ready(function(){
 
-      // First we set some stuff up so we can come back and get it later.
-      // Think about it like taking out the supplies you need for a project
-      // before you get started.
+      var noisemakerAddress = 'http://127.0.0.1:8080';
       
-      // This is the address of the server that makes noise.
-      // We need its address because we want to send it things.
-      var noisemakerAddress = 'http://127.0.0.1:8080'; //TODO: Change for IP @ BitMaker
-      
-      // This is a map. It tells us how to get from one place to another.
-      var keypressToNoteNumberMap = {
+      var keypressToNoteNumber = {
         65: 1, // key A is note 1
         68: 2, // key D is note 2
         74: 3, // key J is note 3
@@ -70,69 +61,55 @@
         76: 5  // key L is note 5
       }
 
-      // These are things we'll need, but we don't know what they are yet.
-      // We're taking them out now so we can come back and fill them in when we know more.
-      var myInstrumentNumber, myRank;
+      var myInstrument, myNumber;
 
-      // Let's find out what they should be. 
-      // We ask the noisemaker to give us some data. Then we write it down.
-      $.get(noisemakerAddress+ '/assignment', function(data){
-        // fill in the information we were missing before.
-        myInstrumentNumber = data.instrumentNumber;
-        myRank = data.rank;
+      $.get(noisemakerAddress+ '/instrument', function(data){
+        console.log(data)
+        myInstrument = data.instrument;
+        myNumber = data.number;
       });
 
-      // A function is instructions for doing a task.
-      // We need instructions for telling the noisemaker to play a sound!
       function playSound(noteNumber){
-        // collect some information to send to the noisemaker so it
-        // knows what note we want to it play. 
         var myInfo = {
             note: noteNumber,
-            instrumentNumber: myInstrumentNumber,
-            rank: myRank
+            instrument: myInstrument,
+            number: myNumber
           }
-          // now send the message! primus is the messenger.
-          // we tell primus the task, then the information he needs to do it.
           primus.send('play note', myInfo);
       }
       
-      // Primus is our messenger. We need to tell him where he should
-      // send the messages, so we give him an address.
+
       var primus = Primus.connect(noisemakerAddress); 
 
-      // when the connection opens
       primus.on('open', function () {
-        // tell the noisemaker that a soundbard is here.
-        primus.send('soundboard join');
+        primus.send('soundboard join', function(){
+          console.log("We joined the party! We're in the band now. Aw yeah.");
+          console.log("My instrument group is %d.", myInstrument);
+          console.log("My number is %d.", myNumber);
+        });
       });
 
-      // when we press down a sound button, play a note!
       $('.sound-button').mousedown(function(){
-        // figure out which note the button makes 
-        var noteNumber = $(this).data('note-number');
-        // remember our function? 
-        // Use the instructions for how to play the sound.
+        var noteNumber = $(this).attr('id');
         playSound(noteNumber);
-        // since this button is in the middle of doing something,
-        // let's make it light up.
         $(this).addClass('active');
       });
 
-      // when we stop pressing the button
       $('.sound-button').mouseup(function(){
-        // it shouldn't light up anymore.
         $(this).removeClass('active');
       });
 
-      // we want to be able to play from the keyboard too!
-      $('html').keydown(function(e){ // when a key is pressed
-        // figure out which key it was
+      $('html').keydown(function(e){ 
         var keyCode = e.which;
-        // using our map, figure out how to get from that key to a note
-        var noteNumber = keypressToNoteNumberMap[e.which];
-        // Use the instructions for how to play the sound.
+        var noteNumber = keypressToNoteNumber[e.which];
         playSound(noteNumber);
+        $('#'+noteNumber).addClass('active');
+      });
+
+      $('html').keyup(function(e){
+        var keyCode = e.which;
+        var noteNumber = keypressToNoteNumber[e.which];
+        $('#'+noteNumber).removeClass('active');
       });
 
     });

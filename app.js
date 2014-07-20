@@ -27,7 +27,7 @@ app.get('/', function(req, res){
 });
 
 
-app.get('/assignment', cors(), functions.assign);
+app.get('/instrument', cors(), functions.assign);
 
 var server = http.createServer(app);
 var primus = new Primus(server, {

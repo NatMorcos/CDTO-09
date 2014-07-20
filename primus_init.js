@@ -12,7 +12,6 @@ module.exports = function(primus){
 		});
 
 		spark.on('soundboard join', function(callback){
-      console.log('inside sound board join');
 			spark.join('soundControlRoom', function(){
 				callback && callback();
 				console.log('a new sound board joined. Hawt diggity.');
@@ -21,9 +20,9 @@ module.exports = function(primus){
 
     spark.on('play note', function(data){
       console.log(data);
-      if (functions.canPlayNow(data.rank)){
+      if (functions.canPlayNow(data.number)){
         spark.room('noiseyRoom').send('play note', data);
-        console.log('play note %d event transmitted from p%d:r%d', data.note, data.instrument, data.rank);
+        console.log('play note %d event transmitted from p%d:r%d', data.note, data.instrument, data.number);
       }
     });
 

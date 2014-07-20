@@ -25,7 +25,7 @@ Start "noiseMaker" Server:
 "Soundboard" client:
 
     student_distro/index.html  
-    line 50: needs the address of the "noiseMaker" server
+    line 50: needs the address of the "noiseMaker" Server
 
 
 RESTful API
